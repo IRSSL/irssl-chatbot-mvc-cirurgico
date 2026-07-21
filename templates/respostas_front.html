@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Respostas dos Pacientes</title>
   <link rel="stylesheet" href="/static/style.css">
+  <style>
+    .status-confirmado { font-weight: bold; display: inline-block; background-color: #28a745; color: white; padding: 4px 8px; border-radius: 4px; }
+    .status-cancelado { font-weight: bold; display: inline-block; background-color: #8b6914; color: white; padding: 4px 8px; border-radius: 4px; }
+    .status-enviado { font-weight: bold; display: inline-block; background-color: #007bff; color: white; padding: 4px 8px; border-radius: 4px; }
+    .status-falha { font-weight: bold; display: inline-block; background-color: #dc3545; color: white; padding: 4px 8px; border-radius: 4px; }
+    .status-aguardando { font-weight: bold; display: inline-block; background-color: #ffc107; color: black; padding: 4px 8px; border-radius: 4px; }
+  </style>
 </head>
 <body>
 <header class="topbar">
@@ -29,7 +36,7 @@
           <option value="TODOS" selected>Todos os envios</option>
           <option value="CONFIRMADO">Confirmado</option>
           <option value="CANCELADO">Cancelado</option>
-          <option value="AGUARDANDO">Aguardando</option>
+          <option value="AGUARDANDO">Falha</option>
         </select>
       </div>
 
@@ -149,11 +156,11 @@
   }
 
   function statusLabel(item) {
-    if (item.RESPOSTA === "CONFIRMADO") return "Confirmado pelo paciente";
-    if (item.RESPOSTA === "CANCELADO") return "Cancelado pelo paciente";
-    if (item.STATUS_ENVIO === "S") return "Enviado, aguardando resposta";
-    if (item.STATUS_ENVIO === "N") return "Falha no envio";
-    return "Aguardando envio";
+    if (item.RESPOSTA === "CONFIRMADO") return { text: "CONFIRMADO", className: "status-confirmado" };
+    if (item.RESPOSTA === "CANCELADO") return { text: "CANCELADO", className: "status-cancelado" };
+    if (item.STATUS_ENVIO === "S") return { text: "ENVIADO", className: "status-enviado" };
+    if (item.STATUS_ENVIO === "N") return { text: "FALHA NO ENVIO", className: "status-falha" };
+    return { text: "AGUARDANDO ENVIO", className: "status-aguardando" };
   }
 
   function buildQuery(page) {
@@ -228,18 +235,23 @@
       return;
     }
 
-    linhas.innerHTML = data.map((item) => `
+    console.log(data)
+
+    linhas.innerHTML = data.map((item) => {
+      const status = statusLabel(item);
+      return `
       <tr>
         <td>${escapeHtml(item.NOME)}</td>
         <td>${escapeHtml(item.NUMERO)}</td>
-        <td>${escapeHtml(item.DATA_CONSULTA)}</td>
+        <td>${escapeHtml(item.DATA_CONSULTA).split(" ")[0]}</td>
         <td>${escapeHtml(item.HORA_CONSULTA)}</td>
         <td>${escapeHtml(item.UNIDADE)}</td>
-        <td>${escapeHtml(statusLabel(item))}</td>
+        <td><span class="${escapeHtml(status.className)}">${escapeHtml(status.text)}</span></td>
         <td>${escapeHtml(item.DT_ENVIO)}</td>
         <td>${escapeHtml(item.DT_RESPOSTA)}</td>
       </tr>
-    `).join("");
+    `;
+    }).join("");
 
     resultado.hidden = false;
   }

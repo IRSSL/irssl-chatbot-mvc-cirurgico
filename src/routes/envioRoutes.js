@@ -104,8 +104,8 @@ async function enviarWrapper(numero, variaveis, empresaId) {
       horaConsulta: horaDb,
       unidade,
       idTemplate: envioCirurgico
-        ? (config.positus.cirurgiaTemplates[tipoInternacao]?.id || 1)
-        : 1,
+        ? (config.positus.cirurgiaTemplates[tipoInternacao]?.id || 2)
+        : 2,
       idEmpresa: empresaId,
       especialidade
     };
@@ -131,7 +131,7 @@ async function enviarWrapper(numero, variaveis, empresaId) {
           unidade,
           obs: observacao,
           idEmpresa: empresaId,
-          idTemplate: 1,
+          idTemplate: 2,
         });
 
     let statusFinal = status;

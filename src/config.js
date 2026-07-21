@@ -11,7 +11,7 @@ module.exports = {
   evidenceDir: process.env.EVIDENCE_DIR || path.join(BASE_DIR, "uploads", "evidencias"),
   logDir: process.env.LOG_DIR || path.join(BASE_DIR, "logs"),
   envioQueue: {
-    persistence: process.env.ENVIO_QUEUE_PERSISTENCE || "file",
+    persistence: process.env.ENVIO_QUEUE_PERSISTENCE || "oracle",
     tableName: process.env.ENVIO_QUEUE_TABLE || "DBAMV.TB_MENSAGEM_FILA_ENVIO",
     batchTableName: process.env.ENVIO_BATCH_TABLE || "DBAMV.TB_MENSAGEM_LOTE_ENVIO",
     batchStoragePath:
@@ -56,7 +56,7 @@ module.exports = {
     cirurgiaTemplates: {
       hospital_dia: {
         name: process.env.POSITUS_TEMPLATE_HOSPITAL_DIA || "elpis_confirm_crur",
-        id: Number(process.env.POSITUS_TEMPLATE_HOSPITAL_DIA_ID || 1),
+        id: 2,
         documentUrl:
           process.env.POSITUS_CIRURGIA_HOSPITAL_DIA_DOCUMENT_URL ||
           "http://irssl.org.br/wp-content/uploads/2026/07/ORIENTACAO-PARA-PACIENTE-HOSPITAL-DIA-1.pdf",
@@ -66,7 +66,7 @@ module.exports = {
       },
       hospital_pernoite: {
         name: process.env.POSITUS_TEMPLATE_HOSPITAL_PERNOITE || "elpis_cirur_hgvp_v2",
-        id: Number(process.env.POSITUS_TEMPLATE_HOSPITAL_PERNOITE_ID || 1),
+        id: 2,
         documentUrl:
           process.env.POSITUS_CIRURGIA_HOSPITAL_PERNOITE_DOCUMENT_URL ||
           "http://irssl.org.br/wp-content/uploads/2026/07/ORIENTACOES-PARA-PACIENTES-PERNOITE-1.pdf",
@@ -76,7 +76,7 @@ module.exports = {
       },
       confirma_consulta_hgvp: {
         name: process.env.POSITUS_TEMPLATE_CONFIRMA_CONSULTA_HGVP || "elpis_cofnirma_consulta_hgvp",
-        id: Number(process.env.POSITUS_TEMPLATE_CONFIRMA_CONSULTA_HGVP_ID || 1),
+        id: 2,
         languageCode: "pt_PT",
         includeButtons: false,
         documentUrl:
@@ -88,7 +88,7 @@ module.exports = {
       },
       bucomaxilo_hgp: {
         name: process.env.POSITUS_TEMPLATE_BUCOMAXILO_HGP || "elpis_bucomaxilo_hgp",
-        id: Number(process.env.POSITUS_TEMPLATE_BUCOMAXILO_HGP_ID || 1),
+        id: 2,
         languageCode: "pt_PT",
         includeButtons: false,
         documentUrl:
@@ -100,7 +100,7 @@ module.exports = {
       },
       paciente_leito_dia_hgvp: {
         name: process.env.POSITUS_TEMPLATE_PACIENTE_LEITO_DIA_HGVP || "elpis_paciente_leito_dia_hgvp",
-        id: Number(process.env.POSITUS_TEMPLATE_PACIENTE_LEITO_DIA_HGVP_ID || 1),
+        id: 2,
         languageCode: "pt_BR",
         includeButtons: false,
         documentUrl:
@@ -112,7 +112,7 @@ module.exports = {
       },
       cancelamento_hgvp: {
         name: process.env.POSITUS_TEMPLATE_CANCELAMENTO_HGVP || "elpis_cancelamento_hgvp",
-        id: Number(process.env.POSITUS_TEMPLATE_CANCELAMENTO_HGVP_ID || 1),
+        id: 2,
         languageCode: "pt_BR",
         includeButtons: false,
         documentUrl:

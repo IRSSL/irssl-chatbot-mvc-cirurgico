@@ -6,11 +6,27 @@ on:
 
 jobs:
   deploy:
+    environment: prod
     runs-on: [self-hosted, linux, x64]
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Criar .env
+        run: |
+          cat <<EOF > .env
+          PORT=9000
+          POSITUS_TOKEN=${{ secrets.POSITUS_TOKEN }}
+          POSITUS_URL=${{ secrets.POSITUS_URL }}
+          ORACLE_HOST=${{ secrets.MV_ORACLE_HOST }}
+          ORACLE_PORT=${{ vars.DB_PORT }}
+          ORACLE_USER=${{ secrets.MV_DB_USER_CHATBOT }}
+          ORACLE_PASS=${{ secrets.MV_DB_PASSWORD_CHATBOT }}
+          DB_SERVICE=${{ secrets.MV_DB_SERVICE_NAME }}
+          LOGS_PATH=${{ vars.LOGS_PATH }}
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          EOF
 
       - name: Auto deploy docker-compose
         run: docker compose up -d --build --force-recreate

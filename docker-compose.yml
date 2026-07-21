@@ -1,7 +1,7 @@
 services:
-  chatbot-api:
+  chatbot-cirurgico:
     build: .
-    container_name: irssl_chatbot_api
+    container_name: irssl_chatbot_cirurgico_hgvp
     restart: unless-stopped
     ports:
       - "9000:9000"

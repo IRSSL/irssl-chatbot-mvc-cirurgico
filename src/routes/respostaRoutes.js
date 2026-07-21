@@ -112,7 +112,7 @@ router.get("/", requireAuthOrHgvp, async (req, res, next) => {
     let page = Math.max(Number(req.query.page || 1), 1);
     const perPage = Math.min(Math.max(Number(req.query.per_page || 10), 1), 100);
 
-    let sqlBase = "FROM DBAMV.TB_MENSAGEM_ENVIO e WHERE e.ID_EMPRESA = :empresaId";
+    let sqlBase = "FROM DBAMV.TB_MENSAGEM_ENVIO e WHERE e.ID_EMPRESA = :empresaId AND e.ID_TEMPLATE = 2";
     const filters = [];
     const binds = { empresaId: req.user.empresa_id };
 
@@ -150,7 +150,7 @@ router.get("/", requireAuthOrHgvp, async (req, res, next) => {
       `WITH page_rows AS (
          SELECT e.*
            ${sqlBase}
-          ORDER BY e.DT_ENVIO DESC, e.ID DESC
+          ORDER BY e.DT_ENVIO DESC NULLS LAST, e.ID DESC
           OFFSET :offset ROWS FETCH NEXT :limit ROWS ONLY
        )
        SELECT
@@ -161,69 +161,9 @@ router.get("/", requireAuthOrHgvp, async (req, res, next) => {
          p.HORA_CONSULTA,
          p.UNIDADE,
          p.STATUS_ENVIO,
-         NVL(
-           p.RESPOSTA,
-           (
-             SELECT CASE
-                      WHEN UPPER(TRIM(w.TEXTO_RESPOSTA)) IN ('CONFIRMAR', 'CONFIRMADO', 'SIM') THEN 'CONFIRMADO'
-                      WHEN UPPER(TRIM(w.TEXTO_RESPOSTA)) IN ('CANCELAR', 'CANCELADO', 'NAO', 'NÃO', 'NÃƒO') THEN 'CANCELADO'
-                      ELSE UPPER(TRIM(w.TEXTO_RESPOSTA))
-                    END
-               FROM DBAMV.TB_MENSAGEM_WEBHOOK w
-              WHERE w.ID_EMPRESA = p.ID_EMPRESA
-                AND w.TIPO_EVENTO = 'button'
-                AND w.TEXTO_RESPOSTA IS NOT NULL
-                AND REGEXP_REPLACE(w.NUMERO, '[^0-9]', '') = REGEXP_REPLACE(p.NUMERO, '[^0-9]', '')
-                AND CAST(w.DATA_EVENTO AS DATE) >= p.DT_ENVIO
-                AND (
-                  (SELECT MIN(p2.DT_ENVIO)
-                     FROM DBAMV.TB_MENSAGEM_ENVIO p2
-                    WHERE p2.ID_EMPRESA = p.ID_EMPRESA
-                      AND p2.STATUS_ENVIO = 'S'
-                      AND REGEXP_REPLACE(p2.NUMERO, '[^0-9]', '') = REGEXP_REPLACE(p.NUMERO, '[^0-9]', '')
-                      AND p2.DT_ENVIO > p.DT_ENVIO) IS NULL
-                  OR CAST(w.DATA_EVENTO AS DATE) <
-                  (SELECT MIN(p2.DT_ENVIO)
-                     FROM DBAMV.TB_MENSAGEM_ENVIO p2
-                    WHERE p2.ID_EMPRESA = p.ID_EMPRESA
-                      AND p2.STATUS_ENVIO = 'S'
-                      AND REGEXP_REPLACE(p2.NUMERO, '[^0-9]', '') = REGEXP_REPLACE(p.NUMERO, '[^0-9]', '')
-                      AND p2.DT_ENVIO > p.DT_ENVIO)
-                )
-              ORDER BY w.DATA_EVENTO DESC
-              FETCH FIRST 1 ROW ONLY
-           )
-         ) AS RESPOSTA,
+         p.RESPOSTA,
          p.DT_ENVIO,
-         NVL(
-           p.DT_RESPOSTA,
-           (
-             SELECT CAST(w.DATA_EVENTO AS DATE)
-               FROM DBAMV.TB_MENSAGEM_WEBHOOK w
-              WHERE w.ID_EMPRESA = p.ID_EMPRESA
-                AND w.TIPO_EVENTO = 'button'
-                AND w.TEXTO_RESPOSTA IS NOT NULL
-                AND REGEXP_REPLACE(w.NUMERO, '[^0-9]', '') = REGEXP_REPLACE(p.NUMERO, '[^0-9]', '')
-                AND CAST(w.DATA_EVENTO AS DATE) >= p.DT_ENVIO
-                AND (
-                  (SELECT MIN(p2.DT_ENVIO)
-                     FROM DBAMV.TB_MENSAGEM_ENVIO p2
-                    WHERE p2.ID_EMPRESA = p.ID_EMPRESA
-                      AND p2.STATUS_ENVIO = 'S'
-                      AND REGEXP_REPLACE(p2.NUMERO, '[^0-9]', '') = REGEXP_REPLACE(p.NUMERO, '[^0-9]', '')
-                      AND p2.DT_ENVIO > p.DT_ENVIO) IS NULL
-                  OR CAST(w.DATA_EVENTO AS DATE) <
-                  (SELECT MIN(p2.DT_ENVIO)
-                     FROM DBAMV.TB_MENSAGEM_ENVIO p2
-                    WHERE p2.ID_EMPRESA = p.ID_EMPRESA
-                      AND p2.STATUS_ENVIO = 'S'
-                      AND REGEXP_REPLACE(p2.NUMERO, '[^0-9]', '') = REGEXP_REPLACE(p.NUMERO, '[^0-9]', '')
-                      AND p2.DT_ENVIO > p.DT_ENVIO)
-                )
-              ORDER BY w.DATA_EVENTO DESC
-              FETCH FIRST 1 ROW ONLY
-           )
-         ) AS DT_RESPOSTA
+         P.DT_RESPOSTA
        FROM page_rows p
        ORDER BY DT_ENVIO DESC, ID DESC`,
       { ...binds, offset, limit: perPage }
@@ -269,6 +209,7 @@ router.get("/analytics", requireAuth, async (req, res, next) => {
          SUM(CASE WHEN RESPOSTA IS NULL THEN 1 ELSE 0 END) AS PENDENTE_RESPOSTA
        FROM DBAMV.TB_MENSAGEM_ENVIO
        WHERE ID_EMPRESA = :empresaId
+        AND TEMPLATE_ID = 2
          AND TRUNC(DT_ENVIO) BETWEEN 
          TO_DATE(:startDt, 'YYYY-MM-DD')  
          AND TO_DATE(:endDt, 'YYYY-MM-DD')
@@ -315,6 +256,7 @@ router.post("/report", requireAuthOrHgvp, async (req, res, next) => {
          DT_ENVIO
        FROM DBAMV.TB_MENSAGEM_ENVIO
        WHERE ID_EMPRESA = :empresaId
+         AND TEMPLATE_ID = 2
          AND DT_ENVIO BETWEEN :dataIni AND :dataFim`,
       {
         empresaId: req.user.empresa_id,
