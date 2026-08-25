@@ -4,13 +4,13 @@ services:
     container_name: irssl_chatbot_cirurgico_hgvp
     restart: unless-stopped
     ports:
-      - "9000:9000"
+      - "5004:5004"
     volumes:
       - ${LOGS_PATH}:/app/logs
     networks:
       - app-net
     environment:
-      PORT: "9000"
+      PORT: "5004"
       DEFAULT_EMPRESA_ID: "${DEFAULT_EMPRESA_ID:-1}"
       AUTH_ADMIN_PASSWORD: "${AUTH_ADMIN_PASSWORD}"
       AUTH_HGVP_PASSWORD: "${AUTH_HGVP_PASSWORD}"

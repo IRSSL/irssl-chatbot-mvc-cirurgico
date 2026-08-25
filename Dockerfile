@@ -25,6 +25,6 @@ RUN npm ci --omit=dev
 COPY . .
 
 ENV ORACLE_CLIENT_LIB_DIR=/opt/oracle/instantclient
-EXPOSE 9000
+EXPOSE 5004
 
 CMD ["npm", "start"]

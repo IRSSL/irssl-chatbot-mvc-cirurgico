@@ -39,7 +39,7 @@ HGVP_CIRURGICO/
 Configure as variaveis no `.env`:
 
 ```text
-PORT=9000
+PORT=5004
 JWT_SECRET=troque-em-producao
 
 POSITUS_TOKEN=

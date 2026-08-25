@@ -16,7 +16,7 @@ jobs:
       - name: Criar .env
         run: |
           cat <<EOF > .env
-          PORT=9000
+          PORT=5004
           POSITUS_TOKEN=${{ secrets.POSITUS_TOKEN }}
           POSITUS_URL=${{ secrets.POSITUS_URL }}
           ORACLE_HOST=${{ secrets.MV_ORACLE_HOST }}

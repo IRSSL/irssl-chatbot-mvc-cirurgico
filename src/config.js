@@ -5,7 +5,7 @@ const BASE_DIR = path.resolve(__dirname, "..");
 
 module.exports = {
   baseDir: BASE_DIR,
-  port: Number(process.env.PORT || 9000),
+  port: Number(process.env.PORT || 5004),
   jwtSecret: process.env.JWT_SECRET || "mock-secret-key-change-in-production",
   uploadDir: process.env.UPLOAD_DIR || path.join(BASE_DIR, "uploads"),
   evidenceDir: process.env.EVIDENCE_DIR || path.join(BASE_DIR, "uploads", "evidencias"),
