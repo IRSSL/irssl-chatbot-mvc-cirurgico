@@ -1,9 +1,9 @@
 
-:root { --orange:#e67e22; --bg:#fafafa; --card:#fff; --ink:#222; }
+:root { --brand:#005efc; --bg:#fafafa; --card:#fff; --ink:#222; }
 *{box-sizing:border-box}
 body{margin:0;font-family:Segoe UI,system-ui,Arial,sans-serif;color:var(--ink);background:var(--bg)}
 .container{max-width:1100px;margin:0 auto;padding:16px}
-.topbar{background:var(--orange);color:#fff}
+.topbar{background:var(--brand);color:#fff}
 .topbar h1{margin:0}
 .topbar nav a{color:#fff;margin-right:12px;text-decoration:none}
 .card{background:var(--card);padding:16px;margin:16px 0;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
@@ -11,14 +11,14 @@ body{margin:0;font-family:Segoe UI,system-ui,Arial,sans-serif;color:var(--ink);b
 label{display:flex;flex-direction:column;font-size:14px}
 input[type="text"], input[type="file"], input, select, textarea{padding:10px;border:1px solid #ddd;border-radius:8px}
 textarea{font-family:inherit;resize:vertical}
-.btn{background:var(--orange);color:#fff;border:0;border-radius:10px;padding:10px 16px;cursor:pointer}
+.btn{background:var(--brand);color:#fff;border:0;border-radius:10px;padding:10px 16px;cursor:pointer}
 .btn:hover{opacity:.9}
 .btn-small{padding:7px 10px;border-radius:8px;font-size:13px}
 .table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .table th,.table td{padding:10px;border-bottom:1px solid #eee;text-align:left;vertical-align:top}
-.table th{background:#ffe9d0}
+.table th{background:#e3eeff}
 .pre{white-space:pre-wrap;word-break:break-word;margin:0}
-.flash{background:#fff7e6;border:1px solid #ffd9a1;padding:10px;border-radius:8px;margin-bottom:16px}
+.flash{background:#fbf5f5;border:1px solid #8fd7fd;padding:10px;border-radius:8px;margin-bottom:16px}
 .footer{padding:16px;color:#555}
 .actions{margin-top:12px}
 
@@ -59,7 +59,7 @@ textarea{font-family:inherit;resize:vertical}
 }
 
 .btn-search {
-  background: #f37321;
+  background: #005efc;
   color: #fff;
   border: none;
   padding: 12px 20px;
@@ -71,7 +71,7 @@ textarea{font-family:inherit;resize:vertical}
 }
 
 .btn-search:hover {
-  background: #d96015;
+  background: #0047c2;
 }
 
 .styled-table {
@@ -82,7 +82,7 @@ textarea{font-family:inherit;resize:vertical}
 }
 
 .styled-table thead {
-  background: #f37321;
+  background: #005efc;
   color: white;
 }
 
@@ -94,7 +94,7 @@ textarea{font-family:inherit;resize:vertical}
 }
 
 .styled-table tbody tr:hover {
-  background: #fff7f0;
+  background: #fbf5f5;
 }
 
 .actions-right {
@@ -168,7 +168,7 @@ textarea{font-family:inherit;resize:vertical}
 .summary-grid strong {
   display: block;
   font-size: 24px;
-  color: #d96015;
+  color: #0047c2;
   margin-bottom: 4px;
 }
 
@@ -240,11 +240,11 @@ textarea{font-family:inherit;resize:vertical}
 }
 
 .row-error td {
-  background: #fff7f0;
+  background: #fbf5f5;
 }
 
 .row-selected td {
-  outline: 2px solid #f37321;
+  outline: 2px solid #005efc;
   outline-offset: -2px;
   font-weight: 600;
 }

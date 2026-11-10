@@ -1,6 +1,6 @@
 const ExcelJS = require("exceljs");
 
-const COLORS = ["FFECB58C", "FFFCF6EE"];
+const COLORS = ["FFDDF3FE", "FFFBF5F5"];
 
 function getValue(row, key) {
   return row[key] ?? row[key.toUpperCase()] ?? row[key.toLowerCase()];
@@ -46,7 +46,7 @@ async function generateAutomationItemsExcel(data) {
   const headerRow = worksheet.getRow(1);
   headerRow.height = 25;
   headerRow.eachCell((cell) => {
-    cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFCD6B23" } };
+    cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FF005EFC" } };
     cell.font = { color: { argb: "FFFFFFFF" }, bold: true };
     cell.alignment = { horizontal: "center", vertical: "middle" };
   });
